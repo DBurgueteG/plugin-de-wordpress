@@ -22,3 +22,4 @@
     include_once(dirname(__FILE__).'/lib/includes.php');
     register_activation_hook(__FILE__,'ConexionBD::participantesInstala');
     register_deactivation_hook(__FILE__,'ConexionBD::participantesDesinstala');
+    
