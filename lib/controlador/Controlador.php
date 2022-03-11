@@ -34,4 +34,42 @@ class Controlador
         );
         return $reglas;
     }
+
+    private function validar()
+    {
+        $validador = new ValidadorForm();
+        $reglasValidacion = $this->crearReglasValidacion();
+        $validador->validar($_POST, $reglasValidacion);
+        if ($validador->esValido()) {
+            $resultadoCosulta = $this->registrar();
+            if (isset($_POST["recuperar"])) {
+                if(is_array($resultadoCosulta)){
+                    $resultado = "Participante ";
+                    $nombre = $resultadoCosulta['nombreapellidos'];
+                    $resultado .= " $nombre ";
+                    $resultado .= "<br /> <br />";
+                    $correo = $resultadoCosulta['correo'];
+                    $resultado .= "Correo: $correo <br /> <br />";
+                    $evento = $resultadoCosulta['evento'];
+                    $resultado .= "Evento: $evento";
+                    $resultado .= "<br /> <br />";
+                    $lenguajes = explode(",", $resultadoCosulta['lenguajes']);
+                    $resultado .= "Lenguajes conocidos:<ul>";
+                    foreach ($lenguajes as $valor) {
+                        $resultado .= "<li class='listado'>" . $valor . "</li>";
+                    }
+                    $resultado .= "</ul>";
+                    $resultado .= "<br /> <br />";
+                } else {
+                    $resultado = $resultadoCosulta; 
+                }
+            } else if (isset($_POST["enviar"])){
+                $resultado = "";
+            }
+            $this->mostrarFormulario("Continuar", $validador, $resultado);
+            exit();
+        }
+        $this->mostrarFormulario("Validar", $validador, null);
+        exit();
+    }
 }

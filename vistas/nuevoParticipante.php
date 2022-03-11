@@ -1,6 +1,6 @@
 <?php
-    if(isset($_POST['nuevo'])){
-        $datos = array(
+    if(isset($_POST['enviar'])){
+        /*$datos = array(
             'nombreapellidos' => $_POST['nombreapellidos'],
             'correo' => $_POST['correo'],
             'evento' => $_POST['evento']
@@ -15,8 +15,8 @@
         $datos['lenguajes'] = $lenguajes;
 
         ConexionBD::addParticipante($datos);
-        echo 'Se ha añadido el participante';
-    } else{
+        echo 'Se ha añadido el participante';*/
+    }
 
     
 ?>
@@ -24,9 +24,9 @@
     <div id="datos">
         <h3>Formulario para insertar un nuevo participante</h3>
         <label for="nombreapellidos">Nombre y apellidos</label>
-        <input type="text" name="nombreapellidos" required="required">
+        <input type="text" name="nombreapellidos" required>
         <label for="correo">Correo</label>
-        <input type="email" name="correo" required="required">
+        <input type="email" name="correo" required>
         <label for="evento">Evento</label>
         <select name="evento">
             <?php
@@ -44,9 +44,12 @@
                 echo '<input type="checkbox" name="lenguaje[]" value="' . $lenguaje .'" id="' . $lenguaje . "><label for='$lenguaje'>$lenguaje</label><br>";
             }
         ?>
-        <input type="text">
+        <input type="submit" name="enviar" value="Enviar">
+        <input type="submit" name="recuperar" value="Recuperar">
     </div>
 </form>
 <?php
+    if(isset($_POST['recuperar'])){
+        
     }
 ?>
