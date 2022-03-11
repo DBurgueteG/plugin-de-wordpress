@@ -24,15 +24,17 @@
     <div id="datos">
         <h3>Formulario para insertar un nuevo participante</h3>
         <label for="nombreapellidos">Nombre y apellidos</label>
-        <input type="text" name="nombreapellidos" required>
+        <input type="text" name="nombreapellidos" <?php echo Input::get('nombreapellidos')?> required>
         <label for="correo">Correo</label>
-        <input type="email" name="correo" required>
+        <input type="email" name="correo" <?php echo Input::get('correo')?> required>
         <label for="evento">Evento</label>
         <select name="evento">
             <?php
                 $eventos = array("Winter Game Jam", "Spring Game Jam", "Summer Game Jam");
                 foreach ($eventos as $evento){
-                    echo '<option value="' . $evento . '">' . $evento . '</option>';
+                    echo '<option value="' . $evento ;
+                    Utilidades::verificarLista(Input::get('evento'), $evento); 
+                    echo '">' . $evento . '</option>';
                 }
             ?>
         </select>
@@ -41,7 +43,9 @@
             $lenguajes = array("PHP", "Java", "JavaScript", "C++", "C#", "Python", "Otro");
             
             foreach ($lenguajes as $lenguaje){
-                echo '<input type="checkbox" name="lenguaje[]" value="' . $lenguaje .'" id="' . $lenguaje . "><label for='$lenguaje'>$lenguaje</label><br>";
+                echo '<input type="checkbox" name="lenguaje[]" value="' . $lenguaje .'" id="' . $lenguaje;
+                Utilidades::verificarBotones(Input::get('lenguaje[]'), $lenguaje);
+                echo "><label for='$lenguaje'>$lenguaje</label><br>";
             }
         ?>
         <input type="submit" name="enviar" value="Enviar">
