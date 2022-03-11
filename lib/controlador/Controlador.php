@@ -27,8 +27,8 @@ class Controlador
     public function crearReglasValidacion()
     {
         $reglas = array(
-            "nombre" => array("required" => true, "maxLeng" => 150),
-            "correo" => array("required" => true, "maxLeng" => 100, "formato" => "email"),
+            "nombre" => array("requiredEnviar" => true, "maxLeng" => 150),
+            "correo" => array("requiredEnviar" => true, "maxLeng" => 100, "formato" => "email"),
             "evento" => array("requiredEnviar" => true, "requiredRecuperar" => false),
             "lenguajes" => array("requiredEnviar" => true, "requiredRecuperar" => false)
         );
