@@ -20,7 +20,14 @@
         public static function addParticipantes($datos){
             global $wpdb;
             $nombre_tabla = $wpdb->prefix.self::PARTICIPANTES_LISTA;
-             $wpdb->query("INSERT INTO " . $nombre_tabla . "(nombreapellidos, correo, evento, lenguajes) VALUES ('" . $datos['nombreapellidos'] . "', '" . $datos['correo'] . "', '" . $datos['evento'] . "', '" . $datos['lenguajes'] . "')");
+            $wpdb->query("INSERT INTO " . $nombre_tabla . "(nombreapellidos, correo, evento, lenguajes) VALUES ('" . $datos['nombreapellidos'] . "', '" . $datos['correo'] . "', '" . $datos['evento'] . "', '" . $datos['lenguajes'] . "')");
+        }
+
+        public static function getParticipantes($correo, $nombre){
+            global $wpdb;
+            $nombre_tabla = $wpdb->prefix.self::PARTICIPANTES_LISTA;
+            $participante = $wpdb->get_results("SELECT * FROM " . $nombre_tabla . " WHERE nombre='" . $nombre . "' AND correo='" . $correo . "'");
+            return $participante;    
         }
     }
 ?>
