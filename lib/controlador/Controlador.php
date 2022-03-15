@@ -1,5 +1,5 @@
 <?php
-add_shortcode('nuevo_Participantes', '');
+add_shortcode('Participantes', 'participantes');
 
 class Controlador
 {
@@ -67,12 +67,61 @@ class Controlador
                     $resultado = $resultadoCosulta;
                 }
             } else if (isset($_POST["enviar"])) {
-                $resultado = "";
+                $resultado = $resultadoCosulta;
             }
             $this->mostrarFormulario("Continuar", $validador, $resultado);
             exit();
         }
         $this->mostrarFormulario("Validar", $validador, null);
         exit();
+    }
+
+    public function registrar(){
+        if (isset($_POST["recuperar"])) {
+            return ConexionBD::getParticipantes(Input::get('correo'), Input::get('nombreapellidos'));
+        } else if (isset($_POST["enviar"])){
+            $datos = array(
+                'nombreapellidos' => Input::get('nombreapellidos'),
+                'correo' => Input::get('correo'),
+                'evento' => Input::get('evento')
+            );
+    
+            $lenguajes = "";
+            foreach (Input::get('lenguajes') as $lenguaje) {
+                $lenguajes .= $lenguaje . ",";
+            }
+            $lenguajes = substr($lenguajes, 0, strlen($lenguajes) - 2);
+    
+            $datos['lenguajes'] = $lenguajes;
+            return $this->manejarAñadir($datos);
+        }
+        
+    }
+
+    private function manejarAñadir($consulta){
+        $respuesta = ConexionBD::addParticipantes($consulta);
+        return $respuesta === false?"No se ha podido añadir el participante":"Se ha añadido el participante";
+    }
+
+    private function manejarRecoger($correo, $nombreapellidos){
+        $respuesta = ConexionBD::getParticipantes($correo, $nombreapellidos);
+        if(mysqli_num_rows($respuesta) == 0){
+            return "No se ha encontrado a " . $nombreapellidos . " en la base de datos";
+        }
+        else{
+            $arrayResultado = array(
+                "nombreapellidos" => "",
+                "correo" => "",
+                "eventos" => "",
+                "lenguajes" => ""
+            );
+            foreach ($respuesta as $linea) {
+                $arrayResultado["nombreapellidos"] = $linea["nombreapellidos"];
+                $arrayResultado["correo"] = $linea["correo"];
+                $arrayResultado["evento"] = $linea["evento"];
+                $arrayResultado["lenguajes"] = $linea["lenguajes"];
+            }
+            return $arrayResultado;
+        }
     }
 }
