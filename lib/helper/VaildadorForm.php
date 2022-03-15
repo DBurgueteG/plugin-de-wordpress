@@ -22,8 +22,8 @@
                 $fuente[$campo] = $filtro::get($campo);
                 foreach ($reglasCampo as $nombre => $regla) {
                     switch ($nombre) {
-                        case 'requiredEnviar':
-                            if($regla && $fuente[$campo] == "" && $reglasCampo['requiredRecuperar']){
+                        case 'required':
+                            if($regla && $fuente[$campo] == ""){
                                 $this->addError($campo, "El campo $campo es requerido");
                             }
                             break;

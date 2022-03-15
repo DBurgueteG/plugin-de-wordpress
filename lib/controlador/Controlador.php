@@ -5,12 +5,12 @@ class Controlador
 {
     public function run()
     {
-        if (/*!isset($_POST) &&*/ $_POST[""] == "empezar") //no se ha enviado el formulario
+        if (/*!isset($_POST) &&*/$_POST[""] == "empezar") //no se ha enviado el formulario
         { // primera petición
             //se llama al método para mostrar el formulario inicial
             $this->mostrarFormulario("validar", null, null);
             exit();
-        } else if (/*!isset($_POST) &&*/ $_POST[""] == "terminar") //no se ha enviado el formulario
+        } else if (/*!isset($_POST) &&*/$_POST[""] == "terminar") //no se ha enviado el formulario
         { // primera petición
             //se llama al método para mostrar el formulario inicial
             $this->mostrarFormulario("validar", null, null);
@@ -27,11 +27,14 @@ class Controlador
     public function crearReglasValidacion()
     {
         $reglas = array(
-            "nombre" => array("requiredEnviar" => true, "maxLeng" => 150),
-            "correo" => array("requiredEnviar" => true, "maxLeng" => 100, "formato" => "email"),
-            "evento" => array("requiredEnviar" => true, "requiredRecuperar" => false),
-            "lenguajes" => array("requiredEnviar" => true, "requiredRecuperar" => false)
+            "nombre" => array("required" => true, "maxLeng" => 150),
+            "correo" => array("required" => true, "maxLeng" => 100, "formato" => "email")
         );
+        if (isset($_POST['enviar'])) {
+            $reglas["evento"] = array("required" => true);
+            $reglas["lenguajes"] = array("required" => true);  
+        }
+
         return $reglas;
     }
 
@@ -43,7 +46,7 @@ class Controlador
         if ($validador->esValido()) {
             $resultadoCosulta = $this->registrar();
             if (isset($_POST["recuperar"])) {
-                if(is_array($resultadoCosulta)){
+                if (is_array($resultadoCosulta)) {
                     $resultado = "Participante ";
                     $nombre = $resultadoCosulta['nombreapellidos'];
                     $resultado .= " $nombre ";
@@ -61,9 +64,9 @@ class Controlador
                     $resultado .= "</ul>";
                     $resultado .= "<br /> <br />";
                 } else {
-                    $resultado = $resultadoCosulta; 
+                    $resultado = $resultadoCosulta;
                 }
-            } else if (isset($_POST["enviar"])){
+            } else if (isset($_POST["enviar"])) {
                 $resultado = "";
             }
             $this->mostrarFormulario("Continuar", $validador, $resultado);

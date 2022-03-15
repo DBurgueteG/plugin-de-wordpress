@@ -16,5 +16,11 @@
             $sql = "DROP TABLE " . $nombre_tabla;
             $wpdb->query($sql);
         }
+
+        public static function addParticipantes($datos){
+            global $wpdb;
+            $nombre_tabla = $wpdb->prefix.self::PARTICIPANTES_LISTA;
+             $wpdb->query("INSERT INTO " . $nombre_tabla . "(nombreapellidos, correo, evento, lenguajes) VALUES ('" . $datos['nombreapellidos'] . "', '" . $datos['correo'] . "', '" . $datos['evento'] . "', '" . $datos['lenguajes'] . "')");
+        }
     }
 ?>
