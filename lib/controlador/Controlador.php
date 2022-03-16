@@ -67,16 +67,12 @@ class Controlador
                     }
                     $resultado .= "</ul>";
                     $resultado .= "<br /> <br />";
-                    $this->mostrarFormulario("recuperado", $validador, $resultado);
-                }
-                if(is_string($resultadoCosulta)){
-                    $this->mostrarFormulario("noEncontrado", $validador, $resultadoCosulta);
                 }
                 
             } else if (isset($_POST["enviar"])) {
                 $resultado = $resultadoCosulta;
-                $this->mostrarFormulario("exito", $validador, $resultado);
             }
+            $this->mostrarFormulario("continuar", $validador, $resultado);
             exit();
         } else {
             $this->mostrarFormulario("error", $validador, null);

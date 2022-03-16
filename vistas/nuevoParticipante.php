@@ -1,7 +1,4 @@
 <?php
-    if($fase == "exito"){
-        echo $resultado;
-    }
     if($fase == "error"){
         $errores = $validador->getErrores();
         if(!empty($errores)){
@@ -20,6 +17,7 @@
         <h3>Formulario para insertar un nuevo participante</h3>
         <label for="nombreapellidos">Nombre y apellidos</label>
         <input type="text" name="nombreapellidos" value="<?php echo Input::get('nombreapellidos')?>">
+        <p><small>(Con el nombre basta, pero se agradece el apellido)</small></p>
         <label for="correo">Correo</label>
         <input type="email" name="correo" value="<?php echo Input::get('correo')?>">
         <label for="evento">Evento</label>
@@ -50,10 +48,7 @@
     </div>
 </form>
 <?php
-    if($fase == "recuperado"){
-        echo $resultado;
-    }
-    if($fase == "noEncontrado"){
+    if($fase == "continuar"){
         echo $resultado;
     }
 ?>
