@@ -1,40 +1,35 @@
 <?php
-    if(isset($_POST['enviar'])){
-        /*$datos = array(
-            'nombreapellidos' => $_POST['nombreapellidos'],
-            'correo' => $_POST['correo'],
-            'evento' => $_POST['evento']
-        );
-
-        $lenguajes = "";
-        foreach ($_POST['lenguajes'] as $lenguaje) {
-            $lenguajes .= $lenguajes . ",";
-        }
-        $lenguajes = substr($lenguajes, 0, strlen($lenguajes) - 2);
-
-        $datos['lenguajes'] = $lenguajes;
-
-        ConexionBD::addParticipante($datos);
-        echo 'Se ha añadido el participante';*/
+    if($fase == "exito"){
+        echo $resultado;
     }
-
-    
+    if($fase == "error"){
+        $errores = $validador->getErrores();
+        if(!empty($errores)){
+            echo "<div class='errores' />";
+            foreach ($errores as $key => $value) {
+                foreach ($value as $mensaje) {
+                    echo $mensaje . "</br>";
+                }
+            }
+            echo "</div>";
+        }
+    }
 ?>
 <form id="form" action="" method="post">
     <div id="datos">
         <h3>Formulario para insertar un nuevo participante</h3>
         <label for="nombreapellidos">Nombre y apellidos</label>
-        <input type="text" name="nombreapellidos" <?php echo Input::get('nombreapellidos')?> required>
+        <input type="text" name="nombreapellidos" value="<?php echo Input::get('nombreapellidos')?>">
         <label for="correo">Correo</label>
-        <input type="email" name="correo" <?php echo Input::get('correo')?> required>
+        <input type="email" name="correo" value="<?php echo Input::get('correo')?>">
         <label for="evento">Evento</label>
         <select name="evento">
             <?php
                 $eventos = array("Winter Game Jam", "Spring Game Jam", "Summer Game Jam");
                 foreach ($eventos as $evento){
-                    echo '<option value="' . $evento ;
+                    echo '<option value="' . $evento . '"';
                     Utilidades::verificarLista(Input::get('evento'), $evento); 
-                    echo '">' . $evento . '</option>';
+                    echo '>' . $evento . '</option>';
                 }
             ?>
         </select>
@@ -43,8 +38,10 @@
             $lenguajes = array("PHP", "Java", "JavaScript", "C++", "C#", "Python", "Otro");
             
             foreach ($lenguajes as $lenguaje){
-                echo '<input type="checkbox" name="lenguaje[]" value="' . $lenguaje .'" id="' . $lenguaje;
-                Utilidades::verificarBotones(Input::get('lenguaje[]'), $lenguaje);
+                echo '<input type="checkbox" name="lenguaje[]" value="' . $lenguaje .'" id="' . $lenguaje . '"';
+                if(isset($_POST['lenguaje'])){
+                    Utilidades::verificarBotones(Input::get('lenguaje'), $lenguaje);
+                }
                 echo "><label for='$lenguaje'>$lenguaje</label><br>";
             }
         ?>
@@ -53,7 +50,10 @@
     </div>
 </form>
 <?php
-    if(isset($_POST['recuperar'])){
-        
+    if($fase == "recuperado"){
+        echo $resultado;
+    }
+    if($fase == "noEncontrado"){
+        echo $resultado;
     }
 ?>

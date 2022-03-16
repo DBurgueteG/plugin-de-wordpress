@@ -15,7 +15,6 @@
         }
 
         public function validar($fuente, $reglasValidacion){
-            include "input.php";
             $this->reglasValidacion = $reglasValidacion;
             $filtro = new Input();
             foreach ($this->reglasValidacion as $campo => $reglasCampo) {
