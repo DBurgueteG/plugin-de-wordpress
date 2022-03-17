@@ -5,7 +5,7 @@
     if($fase == "error"){
         $errores = $validador->getErrores();
         if(!empty($errores)){
-            echo "<div class='errores' />";
+            echo "<div class='errores' style='color: red;' />";
             foreach ($errores as $key => $value) {
                 foreach ($value as $mensaje) {
                     echo $mensaje . "</br>";
@@ -55,6 +55,6 @@
      * Imprime el resultado
      */
     if($fase == "continuar"){
-        echo $resultado;
+        echo "<p>" . $resultado . "</p>";
     }
 ?>
