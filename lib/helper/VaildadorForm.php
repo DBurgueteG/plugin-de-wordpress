@@ -9,11 +9,21 @@
         private $reglasValidacion;
         private $valido;
 
+        /**
+         * Constructor de la clase ValidadorForm
+         */
         public function __construct(){
             $this->errores = array();
             $this->valido = false;
         }
 
+        /**
+         * Metodo que valida las consultas
+         *
+         * @param [type] $fuente
+         * @param array $reglasValidacion
+         * @return boolean
+         */
         public function validar($fuente, $reglasValidacion){
             $this->reglasValidacion = $reglasValidacion;
             $filtro = new Input();
@@ -54,11 +64,22 @@
         {
                 return $this->valido;
         }
-
+        /**
+         * recupera el array de errores
+         *
+         * @return array
+         */
         public function getErrores(){
             return $this->errores;
         }
 
+        /**
+         * Metodo que añade errores al array de errores
+         *
+         * @param string $campo
+         * @param string $error
+         * @return void
+         */
         public function addError($campo, $error){
             if(in_array($campo, $this->errores)){
                 $this->errores[$campo][] = $error;

@@ -1,4 +1,7 @@
 <?php
+    /**
+     * Imprime los errores
+     */
     if($fase == "error"){
         $errores = $validador->getErrores();
         if(!empty($errores)){
@@ -48,6 +51,9 @@
     </div>
 </form>
 <?php
+    /**
+     * Imprime el resultado
+     */
     if($fase == "continuar"){
         echo $resultado;
     }

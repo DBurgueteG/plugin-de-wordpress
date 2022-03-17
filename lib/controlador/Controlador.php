@@ -2,6 +2,11 @@
 
 class Controlador
 {
+    /**
+     * Metodo para correr la aplicación
+     *
+     * @return El formulario
+     */
     public function run()
     {
         if (!isset($_POST["enviar"]) && !isset($_POST["recuperar"])) //no se ha enviado el formulario
@@ -17,11 +22,24 @@ class Controlador
         exit();
     }
 
+    /**
+     * Musestra el formulario
+     *
+     * @param String $fase
+     * @param ValidadorForm $validador
+     * @param String $resultado
+     * @return La vista
+     */
     public function mostrarFormulario($fase, $validador, $resultado)
     {
         include __DIR__."../../../vistas/nuevoParticipante.php";
     }
 
+    /**
+     * Array con las reglas de validación
+     *
+     * @return void
+     */
     public function crearReglasValidacion()
     {
         $reglas = "";
@@ -42,6 +60,12 @@ class Controlador
         return $reglas;
     }
 
+    /**
+     * Metodo que llama al metodo validar de validador form y en caso 
+     * de ser valido al metodo registrar, trata el resultado de la consulta
+     *
+     * @return void
+     */
     private function validar()
     {
         $validador = new ValidadorForm();
@@ -67,6 +91,8 @@ class Controlador
                     }
                     $resultado .= "</ul>";
                     $resultado .= "<br /> <br />";
+                } else {
+                    $resultado = "No se ha encontrado a " . Input::get("nombreapellidos") . " con correo " . Input::get("correo");
                 }
                 
             } else if (isset($_POST["enviar"])) {
@@ -80,6 +106,12 @@ class Controlador
         exit();
     }
 
+    /**
+     * Metodo registrar, en caso de querer insertar un nuevo participante lo inserta,
+     * en caso de querer recuperar uno existente lo recupera
+     *
+     * @return String/array
+     */
     public function registrar(){
         if (isset($_POST["recuperar"])) {
             return $this->manejarRecoger(Input::get('correo'), Input::get('nombreapellidos'));
@@ -102,11 +134,21 @@ class Controlador
         
     }
 
+    /**
+     * Metodo auxiliar para manejar el resultado de añadir un dato
+     * 
+     * return String
+     */
     private function manejarAñadir($consulta){
         $respuesta = ConexionBD::addParticipantes($consulta);
         return $respuesta === false?"No se ha podido añadir el participante":"Se ha añadido el participante";
     }
 
+    /**
+     * Metodo auxiliar para manejar el resultado de recuperar un dato
+     * 
+     * return array
+     */
     private function manejarRecoger($correo, $nombreapellidos){
         $respuesta = ConexionBD::getParticipantes($correo, $nombreapellidos);
         if(sizeof($respuesta) == 0){

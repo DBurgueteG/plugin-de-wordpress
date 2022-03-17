@@ -2,6 +2,9 @@
     class ConexionBD{
         const PARTICIPANTES_LISTA = "tablaparticipantes";
 
+        /**
+         * Metodo que instala la tabla del plugin
+         */
         public static function participantesInstala()
         {
             global $wpdb;
@@ -10,6 +13,9 @@
             $wpdb->query($sql);
         }
 
+        /**
+         * Metodo que desinstala la tabla del plugin
+         */
         public static function participantesDesinstala(){
             global $wpdb;
             $nombre_tabla = $wpdb->prefix.self::PARTICIPANTES_LISTA;
@@ -17,12 +23,25 @@
             $wpdb->query($sql);
         }
 
+        /**
+         * Metodo que añade un nuevo participante a la base de datos
+         *
+         * @param array $datos: todos los datos de $_POST del participante
+         * @return Resultado de la inserción
+         */
         public static function addParticipantes($datos){
             global $wpdb;
             $nombre_tabla = $wpdb->prefix.self::PARTICIPANTES_LISTA;
             return $wpdb->query("INSERT INTO " . $nombre_tabla . "(nombreapellidos, correo, evento, lenguajes) VALUES ('" . $datos['nombreapellidos'] . "', '" . $datos['correo'] . "', '" . $datos['evento'] . "', '" . $datos['lenguajes'] . "')");
         }
 
+        /**
+         * Metodo que recoge el resultado de la busqueda de un participante de la base de datos (exista o no)
+         *
+         * @param String $correo identificativo
+         * @param String $nombreapellidos identificativos
+         * @return array
+         */
         public static function getParticipantes($correo, $nombreapellidos){
             global $wpdb;
             $nombre_tabla = $wpdb->prefix.self::PARTICIPANTES_LISTA;
